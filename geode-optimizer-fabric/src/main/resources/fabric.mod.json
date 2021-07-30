@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "geode-optimizer",
+  "version": "${version}",
+  "name": "Geode Optimizer",
+  "description": "fabric mod that helps finding the optimal piston layout to farm amethyst shards in a geode",
+  "authors": [
+    "lucalewin"
+  ],
+  "contact": {
+    "website": "http://lucraft.ddns.net",
+    "repo": "https://github.com/lucr4ft/geode-optimizer"
+  },
+  "license": "MIT",
+  "icon": "assets/geode-optimizer/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "geodeoptimizer.geodeoptimizer.client.GeodeOptimizerClient"
+    ],
+    "main": [
+      "geodeoptimizer.geodeoptimizer.GeodeOptimizer"
+    ]
+  },
+  "mixins": [
+    "geode-optimizer.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}
