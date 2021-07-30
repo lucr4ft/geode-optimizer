@@ -1,6 +1,6 @@
 package net.ddns.lucraft.geodeoptimizer.fabric.client;
 
-import net.ddns.lucraft.geodeoptimizer.GeodeOptimizer;
+import net.ddns.lucraft.geodeoptimizer.fabric.GeodeOptimizer;
 import net.fabricmc.api.ClientModInitializer;
 
 @net.fabricmc.api.Environment(net.fabricmc.api.EnvType.CLIENT)
