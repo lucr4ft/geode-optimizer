@@ -1,4 +1,4 @@
-package net.ddns.lucraft.geodeoptimizer.client;
+package net.ddns.lucraft.geodeoptimizer.fabric.client;
 
 import net.ddns.lucraft.geodeoptimizer.GeodeOptimizer;
 import net.fabricmc.api.ClientModInitializer;

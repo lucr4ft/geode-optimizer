@@ -1,10 +1,10 @@
-package net.ddns.lucraft.geodeoptimizer;
+package net.ddns.lucraft.geodeoptimizer.fabric;
 
 import net.fabricmc.api.ModInitializer;
 
 public class GeodeOptimizer implements ModInitializer {
 
-    public static final String MOD_ID = "geode-optimizer";
+    public static final String MOD_ID = "geode-optimizer-fabric";
 
     @Override
     public void onInitialize() {
