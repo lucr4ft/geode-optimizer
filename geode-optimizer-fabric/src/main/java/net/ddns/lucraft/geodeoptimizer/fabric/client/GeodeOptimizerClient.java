@@ -17,4 +17,8 @@ public class GeodeOptimizerClient implements ClientModInitializer {
         System.out.println("[" + GeodeOptimizer.MOD_ID.toUpperCase() + "/Client]: Initialized");
     }
 
+    private void registerCommands() {
+
+    }
+
 }
