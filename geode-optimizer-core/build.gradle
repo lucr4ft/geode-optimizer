@@ -2,8 +2,8 @@ plugins {
     id 'java'
 }
 
-group 'net.ddns.lucraft.geodeoptimizer.core'
-version '0.0.1-alpha1'
+group 'net.ddns.lucraft'
+version '1.0'
 
 repositories {
     mavenCentral()
