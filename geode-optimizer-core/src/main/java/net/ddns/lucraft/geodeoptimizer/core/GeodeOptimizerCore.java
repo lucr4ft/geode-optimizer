@@ -1,7 +1,5 @@
 package net.ddns.lucraft.geodeoptimizer.core;
 
-import java.awt.*;
-
 /**
  *
  */
@@ -35,15 +33,15 @@ public class GeodeOptimizerCore {
         System.out.println("[" + NAME.toUpperCase() + "]: Initialized " + NAME);
     }
 
+    /**
+     *
+     * @param positions
+     * @return
+     */
     public Block[] generate(Position[] positions) {
-
         return new Block[] {
                 new Block(pos1, Type.STICKY_PISTON),
                 new Block(pos2, Type.PISTON)
         };
-    }
-
-    public void disable() {
-
     }
 }
