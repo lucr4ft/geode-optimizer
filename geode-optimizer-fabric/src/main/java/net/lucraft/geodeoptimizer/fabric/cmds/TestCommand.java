@@ -1,4 +1,4 @@
-package net.ddns.lucraft.geodeoptimizer.fabric.cmds;
+package net.lucraft.geodeoptimizer.fabric.cmds;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
