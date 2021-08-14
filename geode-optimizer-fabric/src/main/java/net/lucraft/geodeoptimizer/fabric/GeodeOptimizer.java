@@ -20,7 +20,7 @@ public class GeodeOptimizer {
     }
 
     private BlockPos pos1, pos2;
-    private HashMap<BlockPos, BlockState> blocks = new HashMap<>();
+    private final HashMap<BlockPos, BlockState> blocks = new HashMap<>();
 
     private GeodeOptimizer() {}
 
@@ -32,9 +32,9 @@ public class GeodeOptimizer {
      */
     public void generate() throws GenerationException {
         if (pos1 == null) {
-            throw new GenerationException("§4first position not specified");
+            throw new GenerationException("first position not specified");
         } else if (pos2 == null) {
-            throw new GenerationException("§4second position not specified");
+            throw new GenerationException("second position not specified");
         }
 
         blocks.clear();
@@ -72,7 +72,7 @@ public class GeodeOptimizer {
         }
 
         if (positions.size() == 0) {
-            throw new GenerationException("§4no budding amethyst found in specified area!");
+            throw new GenerationException("no budding amethyst found in specified area!");
         }
 
         // here comes the important part:
