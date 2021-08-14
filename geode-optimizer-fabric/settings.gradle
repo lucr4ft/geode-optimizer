@@ -9,4 +9,4 @@ pluginManagement {
     }
 }
 
-includeBuild '../geode-optimizer-core'
+//includeBuild '../geode-optimizer-core'
