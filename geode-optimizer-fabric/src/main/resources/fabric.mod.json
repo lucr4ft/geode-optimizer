@@ -16,10 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "net.ddns.lucraft.geodeoptimizer.fabric.client.GeodeOptimizerClientFabric"
+      "net.lucraft.geodeoptimizer.fabric.client.GeodeOptimizerClientFabric"
     ],
     "main": [
-      "net.ddns.lucraft.geodeoptimizer.fabric.GeodeOptimizerFabric"
+      "net.lucraft.geodeoptimizer.fabric.GeodeOptimizerFabric"
     ]
   },
   "mixins": [

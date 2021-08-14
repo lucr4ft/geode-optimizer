@@ -1,11 +1,9 @@
-package net.ddns.lucraft.geodeoptimizer.fabric.client;
+package net.lucraft.geodeoptimizer.fabric.client;
 
-import net.ddns.lucraft.geodeoptimizer.fabric.GeodeOptimizerFabric;
-import net.ddns.lucraft.geodeoptimizer.fabric.renderer.BlockPreviewRenderer;
+import net.lucraft.geodeoptimizer.fabric.GeodeOptimizerFabric;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 
 @Environment(EnvType.CLIENT)
 public class GeodeOptimizerClientFabric implements ClientModInitializer {

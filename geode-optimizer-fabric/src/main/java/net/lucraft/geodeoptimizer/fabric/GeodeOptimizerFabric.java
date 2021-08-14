@@ -1,18 +1,21 @@
-package net.ddns.lucraft.geodeoptimizer.fabric;
+package net.lucraft.geodeoptimizer.fabric;
 
-import net.ddns.lucraft.geodeoptimizer.core.GeodeOptimizerCore;
-import net.ddns.lucraft.geodeoptimizer.fabric.cmds.Commands;
+import net.lucraft.geodeoptimizer.fabric.cmds.Commands;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.util.Identifier;
 
 public class GeodeOptimizerFabric implements ModInitializer {
 
     public static final String MOD_ID = "geode-optimizer-fabric";
 
+    public static final Identifier GO_SET_CMD_PACKET_ID = new Identifier(MOD_ID, "packet/set_cmd");
+    public static final Identifier GO_UNDO_CMD_PACKET_ID = new Identifier(MOD_ID, "packet/undo_cmd");
+
     @Override
     public void onInitialize() {
         System.out.println("[" + MOD_ID.toUpperCase() + "]: Initializing...");
 
-        GeodeOptimizerCore.getInstance().initialize();
+        GeodeOptimizer.getInstance().initialize();
 
         Commands.register();
 
