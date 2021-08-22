@@ -1,4 +1,4 @@
-package net.lucraft.geodeoptimizer.fabric.util;
+package net.lucraft.geodeoptimizer.fabric.generation.util;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -8,8 +8,9 @@ import java.util.HashMap;
 
 public class GenerationContext {
 
-    private ArrayList<BlockPos> positions;
-    private HashMap<BlockPos, BlockState> blocks;
+    private final ArrayList<BlockPos> positions;
+    private final HashMap<BlockPos, BlockState> blocks;
+    private final GenerationOptions options;
 
     /**
      *
@@ -19,6 +20,13 @@ public class GenerationContext {
     public GenerationContext(ArrayList<BlockPos> positions, HashMap<BlockPos, BlockState> blocks) {
         this.positions = positions;
         this.blocks = blocks;
+        this.options = GenerationOptions.DEFAULT;
+    }
+
+    public GenerationContext(ArrayList<BlockPos> positions, HashMap<BlockPos, BlockState> blocks, GenerationOptions options) {
+        this.positions = positions;
+        this.blocks = blocks;
+        this.options = options;
     }
 
     /**
@@ -35,5 +43,9 @@ public class GenerationContext {
      */
     public HashMap<BlockPos, BlockState> getBlocks() {
         return blocks;
+    }
+
+    public GenerationOptions getOptions() {
+        return options;
     }
 }
