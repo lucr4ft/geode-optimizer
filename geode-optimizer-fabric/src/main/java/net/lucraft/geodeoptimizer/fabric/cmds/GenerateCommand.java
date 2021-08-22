@@ -7,10 +7,7 @@ import net.lucraft.geodeoptimizer.fabric.exceptions.GenerationException;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.HoverEvent;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.Style;
 import net.minecraft.util.Util;
 
 public class GenerateCommand implements Command<ServerCommandSource> {
