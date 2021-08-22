@@ -8,17 +8,19 @@ import net.minecraft.util.math.BlockPos;
 import java.util.HashMap;
 
 /**
+ * @author Luca Lewin
  *
+ * class which contains utility methods for calculation (and generation)
  */
 public class GeneratorUtil {
 
     /**
-     * this method takes two BlockPos as input and returns a
-     * BlockPos with the lowest x, y and z values from both initial BlockPos
-     * and a BlockPos with the highest x, y and z values from both initial BlockPos
-     * @param pos1
-     * @param pos2
-     * @return
+     *
+     * @param pos1 first position
+     * @param pos2 second position
+     * @return a BlockPos with the lowest x, y and z values from both
+     * initial positions and a BlockPos with the highest x, y and z
+     * values from both initial positions as a {@link Pair}
      */
     public static Pair<BlockPos, BlockPos> toMinMaxPositions(BlockPos pos1, BlockPos pos2) {
         int fromX = Math.min(pos1.getX(), pos2.getX());
@@ -33,10 +35,10 @@ public class GeneratorUtil {
 
     /**
      *
-     * @param blocks
-     * @param pos1
-     * @param pos2
-     * @return
+     * @param blocks map of blocks
+     * @param pos1 first position
+     * @param pos2 second position
+     * @return true, if only {@link Blocks#AIR} is inside the cuboid between pos1 and pos2, else false
      */
     public static boolean isCuboidEmpty(HashMap<BlockPos, BlockState> blocks, BlockPos pos1, BlockPos pos2) {
         BlockPos.Mutable pos = new BlockPos.Mutable();
@@ -57,8 +59,33 @@ public class GeneratorUtil {
 
     /**
      *
-     * @param blocks
-     * @return
+     * @param pos1 from position
+     * @param pos2 to position
+     * @return the horizontal distance between the two points
+     */
+    public static double calculate2DDistance(BlockPos pos1, BlockPos pos2) {
+        double dx = Math.abs(pos1.getX() - pos2.getX());
+        double dz = Math.abs(pos1.getZ() - pos2.getZ());
+        return Math.sqrt(dx * dx+ dz * dz);
+    }
+
+    /**
+     *
+     * @param pos1 from position
+     * @param pos2 to position
+     * @return the distance between the two points
+     */
+    public static double calculate3DDistance(BlockPos pos1, BlockPos pos2) {
+        double dx = Math.abs(pos1.getX() - pos2.getX());
+        double dy = Math.abs(pos1.getY() - pos2.getY());
+        double dz = Math.abs(pos1.getZ() - pos2.getZ());
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
+    }
+
+    /**
+     *
+     * @param blocks map of blocks
+     * @return the position of the block with the lowest position
      */
     public static BlockPos findLowestBlock(HashMap<BlockPos, BlockState> blocks) {
         if (blocks.isEmpty()) {
