@@ -1,4 +1,4 @@
-package net.lucraft.geodeoptimizer.fabric.generator.util;
+package net.lucraft.geodeoptimizer.fabric.util;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
