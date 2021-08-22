@@ -4,8 +4,10 @@ import net.lucraft.geodeoptimizer.fabric.generation.util.GenerationContext;
 
 public interface Task {
 
-    String description = "";
-
+    /**
+     *
+     * @param generationContext the {@link GenerationContext} of the current generation
+     */
     void run(GenerationContext generationContext);
 
 }
