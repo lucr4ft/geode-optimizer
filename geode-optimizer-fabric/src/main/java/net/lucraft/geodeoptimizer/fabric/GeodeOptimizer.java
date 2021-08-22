@@ -1,15 +1,22 @@
 package net.lucraft.geodeoptimizer.fabric;
 
+import com.google.common.base.Stopwatch;
 import net.lucraft.geodeoptimizer.fabric.exceptions.GenerationException;
-import net.lucraft.geodeoptimizer.fabric.generator.util.GeneratorUtil;
+import net.lucraft.geodeoptimizer.fabric.tasks.TaskList;
+import net.lucraft.geodeoptimizer.fabric.util.GenerationContext;
+import net.lucraft.geodeoptimizer.fabric.util.MessageUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+
+import static net.lucraft.geodeoptimizer.fabric.GeodeOptimizerFabric.PREFIX;
 
 public class GeodeOptimizer {
 
@@ -19,12 +26,21 @@ public class GeodeOptimizer {
         return instance;
     }
 
+    private final TaskList taskList = new TaskList();
+
     private BlockPos pos1, pos2;
     private final HashMap<BlockPos, BlockState> blocks = new HashMap<>();
 
     private GeodeOptimizer() {}
 
-    public void initialize() {}
+    public void initialize() {
+        taskList.addAll(context -> System.out.println(),
+        context -> {
+            for (BlockPos pos : context.getPositions()) {
+                context.getBlocks().put(BlockPos.ORIGIN, Blocks.FLOWERING_AZALEA_LEAVES.getDefaultState());
+            }
+        });
+    }
 
     /**
      *
@@ -79,23 +95,27 @@ public class GeodeOptimizer {
         // the program will loop through all budding-amethyst (ba) positions
         // and if possible it will insert observers and pistons
 
-        boolean waterCollectionRequired = false;
+        // run tasks
 
-        for (BlockPos pos : positions) {
-            if (GeneratorUtil.isCuboidEmpty(blocks, pos.up(), pos.up(4))) {
-                blocks.put(pos.up(2), Blocks.OBSERVER.getDefaultState());
-                waterCollectionRequired = true;
-            }
+
+        MessageUtil.sendMessage(new LiteralText(PREFIX + "§aStarting generation"));
+
+
+
+        GenerationContext context = new GenerationContext(positions, blocks);
+        Stopwatch watch = Stopwatch.createStarted();
+
+        for (int i = 0; i < taskList.size(); i++) {
+            taskList.get(i).run(context);
+            MessageUtil.sendMessage(new LiteralText(String.format(PREFIX + "§aTask %d out %d complete §7[§6%d%%§7]", i + 1, taskList.size(), (int) (100 * ((double) (i + 1) / (double) taskList.size())))));
         }
 
-        // generate item collection
-        if (waterCollectionRequired) {
-            BlockPos lowest = GeneratorUtil.findLowestBlock(blocks);
-            assert lowest != null;
-            if (lowest.getY() >= 6) {
+        System.out.println(blocks.get(BlockPos.ORIGIN).getBlock());
 
-            }
-        }
+        watch.stop();
+
+        MessageUtil.sendMessage(new LiteralText(PREFIX + String.format("§aGeneration finished in %d ms", watch.elapsed(TimeUnit.MILLISECONDS))));
+        MessageUtil.sendMessage(new LiteralText(PREFIX + "§aUse §7/go preview §6true §a to show a preview of the generated layout"));
     }
 
     public BlockPos getPos1() {
