@@ -6,7 +6,9 @@ import net.lucraft.geodeoptimizer.fabric.exceptions.GenerationException;
 import net.lucraft.geodeoptimizer.fabric.generation.tasks.*;
 import net.lucraft.geodeoptimizer.fabric.generation.util.GenerationContext;
 import net.lucraft.geodeoptimizer.fabric.generation.util.GenerationOptions;
+import net.lucraft.geodeoptimizer.fabric.generation.util.GeneratorUtil;
 import net.lucraft.geodeoptimizer.fabric.util.MessageUtil;
+import net.lucraft.geodeoptimizer.fabric.util.tuples.Pair;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
@@ -39,34 +41,29 @@ public class Generator {
      */
     public void generate(GenerationOptions options) throws GenerationException {
         if (core.getPos1() == null) {
-            throw new GenerationException("left position not specified");
+            throw new GenerationException("first position not specified");
         } else if (core.getPos2() == null) {
-            throw new GenerationException("right position not specified");
+            throw new GenerationException("second position not specified");
         }
 
-        int fromX = Math.min(core.getPos1().getX(), core.getPos2().getX());
-        int fromY = Math.min(core.getPos1().getY(), core.getPos2().getY());
-        int fromZ = Math.min(core.getPos1().getZ(), core.getPos2().getZ());
-        int toX = Math.max(core.getPos1().getX(), core.getPos2().getX());
-        int toY = Math.max(core.getPos1().getY(), core.getPos2().getY());
-        int toZ = Math.max(core.getPos1().getZ(), core.getPos2().getZ());
-
         World world = MinecraftClient.getInstance().world;
-        BlockPos.Mutable mutableBlockPos = new BlockPos.Mutable();
+        assert world != null;
 
+        BlockPos.Mutable mutableBlockPos = new BlockPos.Mutable();
         ArrayList<BlockPos> positions = new ArrayList<>();
         HashMap<BlockPos, BlockState> blocks = new HashMap<>();
 
-        // world could be null
-        assert world != null;
 
         // loop through every block between pos1 & pos2
         // and check if left block is left budding amethyst
         // if there is left budding amethyst, then the position
         // is retrieved and added to positions
-        for (int x = fromX; x < toX; x++) {
-            for (int y = fromY; y < toY; y++) {
-                for (int z = fromZ; z < toZ; z++) {
+
+        Pair<BlockPos, BlockPos> minMax = GeneratorUtil.toMinMaxPositions(core.getPos1(), core.getPos2());
+
+        for (int x = minMax.left().getX(); x < minMax.right().getX(); x++) {
+            for (int y = minMax.left().getY(); y < minMax.right().getY(); y++) {
+                for (int z = minMax.left().getZ(); z < minMax.right().getZ(); z++) {
                     mutableBlockPos.set(x, y, z);
                     if (world.getBlockState(mutableBlockPos).getBlock() == Blocks.BUDDING_AMETHYST) {
                         BlockPos pos = mutableBlockPos.toImmutable();
@@ -76,6 +73,18 @@ public class Generator {
                 }
             }
         }
+
+/*
+        Simpler version
+
+        GeneratorUtil.iterate(core.getPos1(), core.getPos2(), pos -> {
+            if (world.getBlockState(pos).getBlock() == Blocks.BUDDING_AMETHYST) {
+                positions.add(pos);
+                blocks.put(pos, Blocks.BUDDING_AMETHYST.getDefaultState());
+            }
+            return 0;
+        });
+*/
 
         if (positions.size() == 0) {
             throw new GenerationException("no budding amethyst found in specified area!");
@@ -105,7 +114,7 @@ public class Generator {
 
         // send generation details to player
         MessageUtil.sendMessage(PREFIX + String.format("§aGeneration finished in %d ms", watch.elapsed(TimeUnit.MILLISECONDS)));
-        MessageUtil.sendMessage(PREFIX + "§aUse §7/go preview §6true §left to show left preview of the generated layout");
+        MessageUtil.sendMessage(PREFIX + "§aUse §7/go preview §6true §ato show a preview of the generated layout");
     }
 
     /**

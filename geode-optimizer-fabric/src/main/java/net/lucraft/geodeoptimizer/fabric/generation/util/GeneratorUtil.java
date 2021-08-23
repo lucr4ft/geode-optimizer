@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
 
 /**
  * @author Luca Lewin
@@ -44,20 +46,29 @@ public class GeneratorUtil {
      * @return true, if only {@link Blocks#AIR} is inside the cuboid between pos1 and pos2, else false
      */
     public static boolean isCuboidEmpty(@NotNull HashMap<BlockPos, BlockState> blocks, @NotNull BlockPos pos1, @NotNull BlockPos pos2) {
-        BlockPos.Mutable pos = new BlockPos.Mutable();
-        Pair<BlockPos, BlockPos> minMax = toMinMaxPositions(pos1, pos2);
+//        BlockPos.Mutable pos = new BlockPos.Mutable();
+//        Pair<BlockPos, BlockPos> minMax = toMinMaxPositions(pos1, pos2);
+//
+//        for (int x = minMax.left().getX(); x < minMax.right().getX(); x++) {
+//            for (int y = minMax.left().getY(); y < minMax.right().getY(); y++) {
+//                for (int z = minMax.left().getZ(); z < minMax.right().getZ(); z++) {
+//                    pos.set(x, y, z);
+//                    if (blocks.get(pos).getBlock() != Blocks.AIR) {
+//                        return false;
+//                    }
+//                }
+//            }
+//        }
+        AtomicBoolean b = new AtomicBoolean(true);
 
-        for (int x = minMax.left().getX(); x < minMax.right().getX(); x++) {
-            for (int y = minMax.left().getY(); y < minMax.right().getY(); y++) {
-                for (int z = minMax.left().getZ(); z < minMax.right().getZ(); z++) {
-                    pos.set(x, y, z);
-                    if (blocks.get(pos).getBlock() != Blocks.AIR) {
-                        return false;
-                    }
-                }
+        iterate(pos1, pos2, pos -> {
+            if (blocks.get(pos).getBlock() != Blocks.AIR) {
+                b.set(false);
             }
-        }
-        return true;
+            return 0;
+        });
+
+        return b.get();
     }
 
     /**
@@ -117,5 +128,23 @@ public class GeneratorUtil {
             }
         }
         return lowest;
+    }
+
+    /**
+     *
+     * @param from from Position
+     * @param to to Position
+     * @param function function to run when iterating
+     */
+    public static void iterate(@NotNull BlockPos from, @NotNull BlockPos to, @NotNull Function<BlockPos, Integer> function) {
+        Pair<BlockPos, BlockPos> minMax = toMinMaxPositions(from, to);
+
+        for (int x = minMax.left().getX(); x < minMax.right().getX(); x++) {
+            for (int y = minMax.left().getY(); y < minMax.right().getY(); y++) {
+                for (int z = minMax.left().getZ(); z < minMax.right().getZ(); z++) {
+                    function.apply(new BlockPos(x, y, z));
+                }
+            }
+        }
     }
 }
