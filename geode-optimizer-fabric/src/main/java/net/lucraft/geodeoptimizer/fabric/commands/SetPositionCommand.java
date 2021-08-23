@@ -1,17 +1,19 @@
-package net.lucraft.geodeoptimizer.fabric.cmds;
+package net.lucraft.geodeoptimizer.fabric.commands;
 
 import com.mojang.brigadier.Command;
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import net.lucraft.geodeoptimizer.fabric.GeodeOptimizer;
 import net.lucraft.geodeoptimizer.fabric.util.MessageUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.LiteralText;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 
 import static com.mojang.brigadier.arguments.IntegerArgumentType.getInteger;
+import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
+import static net.minecraft.server.command.CommandManager.argument;
+import static net.minecraft.server.command.CommandManager.literal;
 
 public class SetPositionCommand implements Command<ServerCommandSource> {
 
@@ -43,5 +45,9 @@ public class SetPositionCommand implements Command<ServerCommandSource> {
         }
 
         return SINGLE_SUCCESS;
+    }
+
+    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+        dispatcher.register(literal("go").then(literal("pos").then(argument("position", integer(1, 2)).executes(new SetPositionCommand()))));
     }
 }

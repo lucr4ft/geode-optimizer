@@ -1,7 +1,8 @@
 package net.lucraft.geodeoptimizer.fabric;
 
-import net.lucraft.geodeoptimizer.fabric.cmds.Commands;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.lucraft.geodeoptimizer.fabric.commands.CommandManager;
 import net.minecraft.util.Identifier;
 
 public class GeodeOptimizerFabric implements ModInitializer {
@@ -18,7 +19,7 @@ public class GeodeOptimizerFabric implements ModInitializer {
 
         GeodeOptimizer.getInstance().initialize();
 
-        Commands.register();
+        CommandRegistrationCallback.EVENT.register(CommandManager::registerCommands);
 
         System.out.println("[" + MOD_ID.toUpperCase() + "]: Initialized");
     }
