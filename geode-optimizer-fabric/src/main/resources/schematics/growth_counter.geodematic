@@ -1,0 +1,6 @@
+{
+    "minecraft:dropper" {
+        "pos": 0
+        "facing": "north"
+    }
+}
