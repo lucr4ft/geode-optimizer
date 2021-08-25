@@ -15,7 +15,7 @@ public class CommandManager {
         GenerateCommand.register(dispatcher);
         ShowPreviewCommand.register(dispatcher);
 
-        if (dedicated) {
+        if (!dedicated) {
             PlaceCommand.register(dispatcher);
             UndoCommand.register(dispatcher);
         }
