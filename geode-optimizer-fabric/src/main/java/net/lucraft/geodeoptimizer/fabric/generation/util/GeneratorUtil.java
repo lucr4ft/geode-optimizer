@@ -8,13 +8,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
 /**
  * @author Luca Lewin
  *
- * class which contains utility methods for calculation (and generation)
+ * <p>class which contains utility methods for calculation (and generation)</p>
  */
 public class GeneratorUtil {
 
@@ -46,29 +45,20 @@ public class GeneratorUtil {
      * @return true, if only {@link Blocks#AIR} is inside the cuboid between pos1 and pos2, else false
      */
     public static boolean isCuboidEmpty(@NotNull HashMap<BlockPos, BlockState> blocks, @NotNull BlockPos pos1, @NotNull BlockPos pos2) {
-//        BlockPos.Mutable pos = new BlockPos.Mutable();
-//        Pair<BlockPos, BlockPos> minMax = toMinMaxPositions(pos1, pos2);
-//
-//        for (int x = minMax.left().getX(); x < minMax.right().getX(); x++) {
-//            for (int y = minMax.left().getY(); y < minMax.right().getY(); y++) {
-//                for (int z = minMax.left().getZ(); z < minMax.right().getZ(); z++) {
-//                    pos.set(x, y, z);
-//                    if (blocks.get(pos).getBlock() != Blocks.AIR) {
-//                        return false;
-//                    }
-//                }
-//            }
-//        }
-        AtomicBoolean b = new AtomicBoolean(true);
+        BlockPos.Mutable pos = new BlockPos.Mutable();
+        Pair<BlockPos, BlockPos> minMax = toMinMaxPositions(pos1, pos2);
 
-        iterate(pos1, pos2, pos -> {
-            if (blocks.get(pos).getBlock() != Blocks.AIR) {
-                b.set(false);
+        for (int x = minMax.left().getX(); x < minMax.right().getX(); x++) {
+            for (int y = minMax.left().getY(); y < minMax.right().getY(); y++) {
+                for (int z = minMax.left().getZ(); z < minMax.right().getZ(); z++) {
+                    pos.set(x, y, z);
+                    if (blocks.get(pos).getBlock() != Blocks.AIR) {
+                        return false;
+                    }
+                }
             }
-            return 0;
-        });
-
-        return b.get();
+        }
+        return true;
     }
 
     /**
