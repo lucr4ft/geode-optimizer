@@ -18,21 +18,25 @@ public final class SchematicUtil {
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static String toString(BlockState blockState) {
         StringBuilder builder = new StringBuilder();
-        builder.append(Registry.BLOCK.getRawId(blockState.getBlock())).append('[');
-        
-        boolean append = false;
-        for (Map.Entry<Property<?>, Comparable<?>> entry : blockState.getEntries().entrySet()) {
-            if (append) {
-                builder.append(',');
+        builder.append(Registry.BLOCK.getRawId(blockState.getBlock()));
+
+        if (blockState.getEntries().size() > 0) {
+            builder.append('[');
+            boolean append = false;
+            for (Map.Entry<Property<?>, Comparable<?>> entry : blockState.getEntries().entrySet()) {
+                if (append) {
+                    builder.append(',');
+                }
+                append = true;
+
+                Property p = entry.getKey();
+                Comparable c = entry.getValue();
+
+                builder.append(p.getName()).append('=').append(p.name(c));
             }
-            append = true;
-
-            Property p = entry.getKey();
-            Comparable c = entry.getValue();
-
-            builder.append(p.getName()).append('=').append(p.name(c));
+            builder.append(']');
         }
-        return builder.append(']').toString();
+        return builder.toString();
     }
 
     /**
@@ -46,18 +50,24 @@ public final class SchematicUtil {
         StateManager<Block, BlockState> stateManager = block.getStateManager();
         BlockState blockState = block.getDefaultState();
 
-        String propsStr = blockStr.substring(blockStr.indexOf('[') + 1, blockStr.length() - 2);
+        if (blockStr.indexOf('[') != -1) {
+            // properties are specified
+            String propsStr = blockStr.substring(blockStr.indexOf('[') + 1, blockStr.length() - 1);
 
-        for (String prop : propsStr.split(",")) {
-            String name = prop.split("=")[0];
-            String value = prop.split("=")[1];
+            // check if properties array is not empty
+            if (!propsStr.equals("")) {
+                for (String prop : propsStr.split(",")) {
+                    String name = prop.split("=")[0];
+                    String value = prop.split("=")[1];
 
-            Property<?> property = stateManager.getProperty(name);
-            assert property != null;
+                    Property<?> property = stateManager.getProperty(name);
+                    assert property != null;
 
-            Optional<? extends Comparable<?>> optional = property.parse(value);
-            if (optional.isPresent()) {
-                blockState = blockState.with((Property) property, (Comparable) optional.get());
+                    Optional<? extends Comparable<?>> optional = property.parse(value);
+                    if (optional.isPresent()) {
+                        blockState = blockState.with((Property) property, (Comparable) optional.get());
+                    }
+                }
             }
         }
         return blockState;

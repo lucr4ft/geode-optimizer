@@ -10,8 +10,8 @@ public class MessageUtil {
 
     /**
      *
-     * @param text
-     * @param uuid
+     * @param text the {@link Text} to send
+     * @param uuid the sender {@link UUID}
      */
     public static void sendSystemMessage(Text text, UUID uuid) {
         assert MinecraftClient.getInstance().player != null;
@@ -37,19 +37,10 @@ public class MessageUtil {
 
     /**
      *
-     * @param text
+     * @param text the text to send
      */
     public static void sendGlobalMessage(String text) {
         assert MinecraftClient.getInstance().player != null;
         MinecraftClient.getInstance().player.sendChatMessage(text);
     }
-
-    /**
-     *
-     * @param messageUUID
-     */
-    public static void updateMessage(UUID messageUUID) {
-        // Todo (if possible)
-    }
-
 }

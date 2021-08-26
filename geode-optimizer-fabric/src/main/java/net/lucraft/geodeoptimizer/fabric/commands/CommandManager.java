@@ -18,6 +18,7 @@ public class CommandManager {
         if (!dedicated) {
             PlaceCommand.register(dispatcher);
             UndoCommand.register(dispatcher);
+            SchematicCommand.register(dispatcher);
         }
     }
 }
