@@ -37,6 +37,7 @@ public class SetPositionCommand {
      * @param pos the position to be set
      * @return {@link Command#SINGLE_SUCCESS}
      */
+    @SuppressWarnings("SameReturnValue")
     private static int execute(int set, BlockPos pos) {
         if (set == 1) {
             GeodeOptimizer.getInstance().setPos1(pos);

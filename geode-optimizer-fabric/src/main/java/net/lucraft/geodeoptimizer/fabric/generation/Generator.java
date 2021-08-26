@@ -27,6 +27,7 @@ public class Generator {
 
     public static final Generator instance = new Generator();
 
+    @SuppressWarnings("SameReturnValue")
     public static Generator getInstance() {
         return instance;
     }
