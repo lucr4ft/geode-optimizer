@@ -2,52 +2,49 @@ package net.lucraft.geodeoptimizer.fabric.commands;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.LiteralMessage;
 import net.lucraft.geodeoptimizer.fabric.GeodeOptimizer;
 import net.lucraft.geodeoptimizer.fabric.util.MessageUtil;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.math.BlockPos;
 
 import static com.mojang.brigadier.arguments.IntegerArgumentType.getInteger;
 import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
+import static net.minecraft.command.argument.BlockPosArgumentType.blockPos;
+import static net.minecraft.command.argument.BlockPosArgumentType.getLoadedBlockPos;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
-public class SetPositionCommand implements Command<ServerCommandSource> {
+public class SetPositionCommand {
 
-    private final GeodeOptimizer core = GeodeOptimizer.getInstance();
-
-    @SuppressWarnings("SpellCheckingInspection")
-    @Override
-    public int run(CommandContext<ServerCommandSource> context) {
-        // check if the player exists
-        assert MinecraftClient.getInstance().player != null;
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
-
-        // get location the player is currently standing
-        BlockPos pos = player.getBlockPos();
-
-        // check if pos 1 or 2 should be updated
-        if (getInteger(context,"position") == 1) {
-            core.setPos1(pos);
-            MessageUtil.sendMessage(String.format("§afirst position set to [%d, %d, %d]",
-                    pos.getX(),
-                    pos.getY(),
-                    pos.getZ()));
-        } else {
-            core.setPos2(pos);
-            MessageUtil.sendMessage(String.format("§asecond position set to [%d, %d, %d]",
-                    pos.getX(),
-                    pos.getY(),
-                    pos.getZ()));
-        }
-
-        return SINGLE_SUCCESS;
+    /**
+     *
+     * @param dispatcher the command dispatcher
+     */
+    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+        dispatcher.register(literal("go").then(literal("pos")
+                .then(argument("position", integer(1, 2))
+                        .suggests((context, builder) -> builder.suggest(1, new LiteralMessage("set the first position"))
+                                .suggest(2, new LiteralMessage("set the second position")).buildFuture())
+                        .executes(context -> execute(getInteger(context, "position"), context.getSource().getPlayer().getBlockPos()))
+                        .then(argument("block_pos", blockPos())
+                                .executes(context -> execute(getInteger(context, "position"), getLoadedBlockPos(context, "block_pos")))))));
     }
 
-    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(literal("go").then(literal("pos").then(argument("position", integer(1, 2)).executes(new SetPositionCommand()))));
+    /**
+     *
+     * @param set set pos 1 or 2 (range[1,2])
+     * @param pos the position to be set
+     * @return {@link Command#SINGLE_SUCCESS}
+     */
+    private static int execute(int set, BlockPos pos) {
+        if (set == 1) {
+            GeodeOptimizer.getInstance().setPos1(pos);
+            MessageUtil.sendMessage(String.format("§afirst position set to [%s]", pos.toShortString()));
+        } else {
+            GeodeOptimizer.getInstance().setPos2(pos);
+            MessageUtil.sendMessage(String.format("§asecond position set to [%s]", pos.toShortString()));
+        }
+        return Command.SINGLE_SUCCESS;
     }
 }
