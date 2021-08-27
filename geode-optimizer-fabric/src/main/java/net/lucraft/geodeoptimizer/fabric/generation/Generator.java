@@ -4,9 +4,6 @@ import com.google.common.base.Stopwatch;
 import net.lucraft.geodeoptimizer.fabric.GeodeOptimizer;
 import net.lucraft.geodeoptimizer.fabric.exceptions.GenerationException;
 import net.lucraft.geodeoptimizer.fabric.generation.tasks.*;
-import net.lucraft.geodeoptimizer.fabric.generation.util.GenerationContext;
-import net.lucraft.geodeoptimizer.fabric.generation.util.GenerationOptions;
-import net.lucraft.geodeoptimizer.fabric.generation.util.GeneratorUtil;
 import net.lucraft.geodeoptimizer.fabric.util.MessageUtil;
 import net.lucraft.geodeoptimizer.fabric.util.tuples.Pair;
 import net.minecraft.block.BlockState;
@@ -126,6 +123,9 @@ public class Generator {
     @NotNull
     private List<Task> loadTasksFromOptions(@NotNull GenerationOptions options) {
         List<Task> tasks = new ArrayList<>();
+
+        // pistons
+        tasks.add(new GeneratePistonsTask());
 
         // growth counter
         tasks.add(new GenerateGrowthCounterTask());
