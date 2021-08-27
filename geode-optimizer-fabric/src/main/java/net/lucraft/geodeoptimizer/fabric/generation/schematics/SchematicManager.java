@@ -1,7 +1,7 @@
 package net.lucraft.geodeoptimizer.fabric.generation.schematics;
 
 import net.lucraft.geodeoptimizer.fabric.GeodeOptimizer;
-import net.lucraft.geodeoptimizer.fabric.generation.util.GeneratorUtil;
+import net.lucraft.geodeoptimizer.fabric.generation.GeneratorUtil;
 import net.lucraft.geodeoptimizer.fabric.util.Dimension;
 import net.lucraft.geodeoptimizer.fabric.util.MessageUtil;
 import net.lucraft.geodeoptimizer.fabric.util.tuples.Pair;
@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 import static net.lucraft.geodeoptimizer.fabric.GeodeOptimizerFabric.PREFIX;
 
 /**
+ * @author Luca Lewin
  * @apiNote use this class and its methods <b>ONLY</b> for development and <b>NOT</b> deployment
  */
 public class SchematicManager {
@@ -39,8 +40,7 @@ public class SchematicManager {
     public static void load(@NotNull String name) {
         Schematic schematic = Schematics.loadFromResources(name);
         assert schematic != null;
-        schematic.getBlocks().forEach((blockPos, blockState) -> System.out.println(blockPos.toShortString() + " | " + blockState));
-        MessageUtil.sendMessage("loaded schematic " + schematic.getName());
+        MessageUtil.sendMessage("%s§aSuccessfully loaded schematic §7'§a%s§7'".formatted(PREFIX, name));
         LOADED_SCHEMATICS.add(schematic);
     }
 
@@ -63,6 +63,9 @@ public class SchematicManager {
             MessageUtil.sendMessage(String.format("%s§4Error:§c Schematic with name §7'§c%s§7'§c does not exist!", PREFIX, name));
             return;
         }
+
+        //noinspection StatementWithEmptyBody
+        while (schematic.getBlocks().values().remove(Blocks.STRUCTURE_VOID.getDefaultState()));
 
         // get number of unique blockstates and store each unique in this list
         List<BlockState> uniqueBlockStates = schematic.getBlocks().values().stream().distinct().toList();
