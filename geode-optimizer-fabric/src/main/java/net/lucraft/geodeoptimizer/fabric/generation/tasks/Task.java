@@ -1,13 +1,14 @@
 package net.lucraft.geodeoptimizer.fabric.generation.tasks;
 
-import net.lucraft.geodeoptimizer.fabric.generation.util.GenerationContext;
+import net.lucraft.geodeoptimizer.fabric.generation.GenerationContext;
 
+@FunctionalInterface
 public interface Task {
 
     /**
      *
-     * @param generationContext the {@link GenerationContext} of the current generation
+     * @param context the {@link GenerationContext} of the current generation
      */
-    void run(GenerationContext generationContext);
+    void run(GenerationContext context);
 
 }
