@@ -1,6 +1,6 @@
 package net.lucraft.geodeoptimizer.fabric.generation.tasks;
 
-import net.lucraft.geodeoptimizer.fabric.generation.util.GenerationContext;
+import net.lucraft.geodeoptimizer.fabric.generation.GenerationContext;
 
 public class GenerateWaterCollectionSystemTask implements Task {
     @Override

@@ -1,8 +1,8 @@
 package net.lucraft.geodeoptimizer.fabric.generation.tasks;
 
 import net.lucraft.geodeoptimizer.fabric.GeodeOptimizerFabric;
-import net.lucraft.geodeoptimizer.fabric.generation.util.GenerationContext;
-import net.lucraft.geodeoptimizer.fabric.generation.util.GeneratorUtil;
+import net.lucraft.geodeoptimizer.fabric.generation.GenerationContext;
+import net.lucraft.geodeoptimizer.fabric.generation.GeneratorUtil;
 import net.lucraft.geodeoptimizer.fabric.util.MessageUtil;
 import net.minecraft.util.math.BlockPos;
 
