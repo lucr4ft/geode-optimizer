@@ -14,14 +14,23 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @author Luca Lewin
+ */
 public class Schematics {
 
     private static final ClassLoader CLASS_LOADER;
+
     public static final Schematic GROWTH_COUNTER_SCHEMATIC;
+    public static final Schematic SINGLE_BUDDING_AMETHYST_LAYOUT_SCHEMATIC;
+    public static final Schematic TILEABLE_COUNTER_SCHEMATIC;
 
     static {
         CLASS_LOADER = Thread.currentThread().getContextClassLoader();
+
         GROWTH_COUNTER_SCHEMATIC = loadFromResources("growth_counter");
+        SINGLE_BUDDING_AMETHYST_LAYOUT_SCHEMATIC = loadFromResources("single_budding_amethyst_layout");
+        TILEABLE_COUNTER_SCHEMATIC = loadFromResources("tileable_counter");
     }
 
     /**
