@@ -18,15 +18,7 @@ public class GeodeOptimizer {
 
     private BlockPos pos1, pos2;
 
-    /**
-     * Todo: add javadoc
-     */
     private GeodeOptimizer() { }
-
-    /**
-     * Todo: implement method + add javadoc
-     */
-    public void initialize() { }
 
     /**
      *
